@@ -60,7 +60,7 @@ export default defineComponent({
       // },
       {
         icon: $globals.icons.user,
-        to: "/admin/manage/users",
+        to: "/admin/manage/groups",
         title: i18n.tc("user.users"),
         restricted: true,
       },
@@ -71,7 +71,7 @@ export default defineComponent({
         restricted: true,
       },
       {
-        icon: $globals.icons.database,
+Pool        icon: $globals.icons.database,
         to: "/admin/backups",
         title: i18n.tc("sidebar.backups"),
         restricted: true,
