@@ -1,21 +1,21 @@
 name: Build Containers
 
-# on:
-#   workflow_call:
-#     inputs:
-#       tag:
-#         required: true
-#         type: string
-#     secrets:
-#       DOCKERHUB_USERNAME:
-#         required: true
-#       DOCKERHUB_TOKEN:
-#         required: true
-
 on:
-  push:
-    branches:
-      - 'actions-testing'
+  workflow_call:
+    # inputs:
+    #   tag:
+    #     required: true
+    #     type: string
+    # secrets:
+    #   DOCKERHUB_USERNAME:
+    #     required: true
+    #   DOCKERHUB_TOKEN:
+    #     required: true
+
+# on:
+#   push:
+#     branches:
+#       - 'actions-testing'
 
 jobs:
   publish:
