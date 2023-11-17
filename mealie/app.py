@@ -14,6 +14,7 @@ from mealie.services.scheduler import SchedulerRegistry, SchedulerService, tasks
 settings = get_app_settings()
 
 description = f"""
+Non functional python change. 
 Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
 API interactive documentation that can be used to explore the API. If you're justing getting started with
 the API and want to get started quickly, you can use the
