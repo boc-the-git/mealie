@@ -92,6 +92,7 @@ class TagController(BaseCrudController):
         Removes a recipe tag from the database. Deleting a
         tag does not impact a recipe. The tag will be removed
         from any recipes that contain it
+Test
         """
 
         try:
