@@ -169,7 +169,7 @@
         {
           icon: $globals.icons.search,
           to: `/g/${groupSlug.value}`,
-          title: i18n.tc("sidebar.search"),
+          title: i18n.tc("sidebar.tags"),
           restricted: true,
         },
         {
