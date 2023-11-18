@@ -88,7 +88,7 @@ export default defineComponent({
       {
         icon: $globals.icons.check,
         to: "/admin/background-tasks",
-        title: i18n.tc("sidebar.background-tasks"),
+        title: i18n.tc("sidebar.maintenance"),
         restricted: true,
       },
       {
