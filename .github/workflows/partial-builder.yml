@@ -2,15 +2,15 @@ name: Build Containers
 
 on:
   workflow_call:
-    inputs:
-      tag:
-        required: true
-        type: string
-    secrets:
-      DOCKERHUB_USERNAME:
-        required: true
-      DOCKERHUB_TOKEN:
-        required: true
+    # inputs:
+    #   tag:
+    #     required: true
+    #     type: string
+    # secrets:
+    #   DOCKERHUB_USERNAME:
+    #     required: true
+    #   DOCKERHUB_TOKEN:
+    #     required: true
 
 jobs:
   publish:
