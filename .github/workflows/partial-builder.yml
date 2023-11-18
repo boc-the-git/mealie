@@ -51,8 +51,8 @@ jobs:
           file: ./docker/Dockerfile
           context: .
           platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ghcr.io/${{ github.repository }}:${{ inputs.tag }}
+          #push: true
+          tags: test/actions-performance-improvements-v2-testing
           build-args: |
             COMMIT=${{ github.sha }}
           # https://evilmartians.com/chronicles/build-images-on-github-actions-with-docker-layer-caching
