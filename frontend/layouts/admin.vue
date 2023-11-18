@@ -71,7 +71,7 @@ export default defineComponent({
         restricted: true,
       },
       {
-Pool        icon: $globals.icons.database,
+        icon: $globals.icons.database,
         to: "/admin/backups",
         title: i18n.tc("sidebar.backups"),
         restricted: true,
