@@ -17,5 +17,3 @@ jobs:
   frontend-tests:
     name: "Frontend and End-to-End Tests"
     uses: ./.github/workflows/partial-frontend.yml
-        with:
-          args: "🚀  New builds of ghcr.io/mealie-recipes/mealie:nightly"
