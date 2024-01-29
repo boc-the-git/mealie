@@ -1,7 +1,7 @@
 name: Test if the changes on branch feat-update-docs-on-new-release work!
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   update-image-tags:
