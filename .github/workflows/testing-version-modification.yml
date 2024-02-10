@@ -7,6 +7,8 @@ jobs:
   update-image-tags:
     name: Update image tag in sample docker-compose files
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v4
