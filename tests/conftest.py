@@ -1,6 +1,7 @@
 import contextlib
 from collections.abc import Generator
 
+
 from pytest import MonkeyPatch, fixture
 
 mp = MonkeyPatch()
