@@ -27,7 +27,7 @@ jobs:
           file: ./docker/Dockerfile
           context: .
           platforms: linux/amd64,linux/arm64
-          push: false
+          push: true
           tags: |
             boc-the-git:mealie-depot
           build-args: |
@@ -54,7 +54,7 @@ jobs:
           file: ./docker/Dockerfile
           context: .
           platforms: linux/amd64,linux/arm64
-          push: false
+          push: true
           tags: |
             boc-the-git:mealie-gha
           build-args: |
