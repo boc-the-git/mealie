@@ -86,8 +86,8 @@ jobs:
         uses: GoogleContainerTools/container-diff/actions@0695621c48497a11a893a8fc0af7965c674123da
         with:
           command: diff          
-          args: daemon://boc-the-git:mealie-gha daemon://boc-the-git:mealie-depot --type=file --output="./container-diff-file.txt"
+          args: daemon://boc-the-git:mealie-gha daemon://boc-the-git:mealie-depot --type=file --output="/tmp/container-diff-file.txt"
 
       - name: Print container-diff
         run: |
-          cat ./container-diff-file.txt
+          cat /tmp/container-diff-file.txt
