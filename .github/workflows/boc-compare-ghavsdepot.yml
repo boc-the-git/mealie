@@ -28,6 +28,7 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: false
+          load: true
           tags: |
             boc-the-git:mealie-depot
           build-args: |
@@ -35,7 +36,6 @@ jobs:
             
       - name: Load and tag docker image
         run: |
-          docker load < result
           docker image ls
 
   build-gha:
@@ -60,6 +60,7 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: false
+          load: true
           tags: |
             boc-the-git:mealie-gha
           build-args: |
