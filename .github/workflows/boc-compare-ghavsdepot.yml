@@ -26,7 +26,8 @@ jobs:
           project: srzjb6mhzm
           file: ./docker/Dockerfile
           context: .
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
           push: false
           load: true
           tags: |
@@ -58,9 +59,10 @@ jobs:
         with:
           file: ./docker/Dockerfile
           context: .
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
           push: false
-          # load: true
+          load: true
           tags: |
             boc-the-git:mealie-gha
           build-args: |
