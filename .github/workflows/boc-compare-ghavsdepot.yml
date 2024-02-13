@@ -27,11 +27,16 @@ jobs:
           file: ./docker/Dockerfile
           context: .
           platforms: linux/amd64,linux/arm64
-          push: true
+          push: false
           tags: |
             boc-the-git:mealie-depot
           build-args: |
             COMMIT=${{ github.sha }}
+            
+      - name: Load and tag docker image
+        run: |
+          docker load < result
+          docker image ls
 
   build-gha:
     runs-on: ubuntu-latest
@@ -54,7 +59,7 @@ jobs:
           file: ./docker/Dockerfile
           context: .
           platforms: linux/amd64,linux/arm64
-          push: true
+          push: false
           tags: |
             boc-the-git:mealie-gha
           build-args: |
