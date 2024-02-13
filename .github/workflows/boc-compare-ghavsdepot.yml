@@ -6,7 +6,7 @@ on:
       - mealie-next
 
 jobs:
-  build-depot:
+  build-and-compare:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -38,13 +38,13 @@ jobs:
         run: |
           docker image ls
 
-  build-gha:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  # build-gha:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     id-token: write
+  #   steps:
+      # - name: Checkout repository
+      #   uses: actions/checkout@v4
 
       - name: Override __init__.py
         run: |
@@ -73,6 +73,10 @@ jobs:
   #       run: |
   #         docker pull boc-the-git:mealie-gha
   #         docker pull boc-the-git:mealie-depot
+            
+      - name: Load and tag docker image
+        run: |
+          docker image ls
         
       - name: Run container-diff
         uses: GoogleContainerTools/container-diff/actions@0695621c48497a11a893a8fc0af7965c674123da
