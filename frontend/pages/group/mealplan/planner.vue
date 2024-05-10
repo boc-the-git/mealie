@@ -30,6 +30,16 @@
       </v-date-picker>
     </v-menu>
 
+    <v-btn text color="primary" class="mb-2" @click="todayPlusX(5)">
+      T+5
+    </v-btn>
+    <v-btn text color="primary" class="mb-2" @click="todayPlusX(7)">
+      T+7
+    </v-btn>
+    <v-btn text color="primary" class="mb-2" @click="todayPlusX(10)">
+      T+10
+    </v-btn>
+
     <div class="d-flex flex-wrap align-center justify-space-between mb-2">
       <v-tabs style="width: fit-content;">
         <v-tab :to="`/group/mealplan/planner/view`">{{ $t('meal-plan.meal-planner') }}</v-tab>
@@ -113,6 +123,12 @@ export default defineComponent({
       });
     }
 
+    function todayPlusX(days: number) {
+      state.value.range = [fmtYYYYMMDD(new Date()), fmtYYYYMMDD(addDays(new Date(), days))] as [string, string];
+      state.value.start = new Date();
+      state.value.end = addDays(new Date(), days);
+    }
+
     const days = computed(() => {
       const numDays =
         Math.floor((weekRange.value.end.getTime() - weekRange.value.start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
@@ -140,6 +156,7 @@ export default defineComponent({
       actions,
       mealsByDate,
       weekRange,
+      todayPlusX,
       firstDayOfWeek,
       recipeSearchTerm,
     };
