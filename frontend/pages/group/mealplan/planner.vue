@@ -30,14 +30,11 @@
       </v-date-picker>
     </v-menu>
 
-    <v-btn text color="primary" class="mb-2" @click="todayPlusX(5)">
-      T+5
+    <v-btn text color="primary" class="mb-2" @click="extendEndDate(1)">
+      +1
     </v-btn>
-    <v-btn text color="primary" class="mb-2" @click="todayPlusX(7)">
-      T+7
-    </v-btn>
-    <v-btn text color="primary" class="mb-2" @click="todayPlusX(10)">
-      T+10
+    <v-btn text color="primary" class="mb-2" @click="extendEndDate(3)">
+      +3
     </v-btn>
 
     <div class="d-flex flex-wrap align-center justify-space-between mb-2">
@@ -123,10 +120,11 @@ export default defineComponent({
       });
     }
 
-    function todayPlusX(days: number) {
-      state.value.range = [fmtYYYYMMDD(new Date()), fmtYYYYMMDD(addDays(new Date(), days))] as [string, string];
-      state.value.start = new Date();
-      state.value.end = addDays(new Date(), days);
+    function extendEndDate(days: number) {
+      const start = parseYYYYMMDD(state.value.range[0]);
+      const end = parseYYYYMMDD(state.value.range[1]);
+      state.value.end = addDays(end, days);
+      state.value.range = [fmtYYYYMMDD(start), fmtYYYYMMDD(state.value.end)];
     }
 
     const days = computed(() => {
@@ -156,7 +154,7 @@ export default defineComponent({
       actions,
       mealsByDate,
       weekRange,
-      todayPlusX,
+      extendEndDate,
       firstDayOfWeek,
       recipeSearchTerm,
     };
