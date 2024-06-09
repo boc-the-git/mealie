@@ -16,6 +16,7 @@
             {{ activeText }}
           </p>
           <v-divider class="mb-4"></v-divider>
+          <!-- TODO: Add section headings to ingredient linking -->
           <v-checkbox
             v-for="ing in unusedIngredients"
             :key="ing.referenceId"
@@ -149,6 +150,10 @@
                               event: 'link-ingredients',
                             },
                             {
+                              text: $tc('recipe.output-ingredients'),
+                              event: 'output-ingredients',
+                            },
+                            {
                               text: $tc('recipe.upload-image'),
                               event: 'upload-image'
                             },
@@ -178,6 +183,7 @@
                       @move-to-bottom="moveTo('bottom', index)"
                       @toggle-section="toggleShowTitle(step.id)"
                       @link-ingredients="openDialog(index, step.text, step.ingredientReferences)"
+                      @output-ingredients="outputIngredient(index, step.text, step.ingredientReferences)"
                       @preview-step="togglePreviewState(index)"
                       @upload-image="openImageUpload(index)"
                       @delete="value.splice(index, 1)"
@@ -321,6 +327,10 @@ export default defineComponent({
         event: "link-ingredients",
       },
       {
+        text: i18n.t("recipe.output-ingredients") as string,
+        event: "output-ingredients",
+      },
+      {
         text: i18n.t("recipe.merge-above") as string,
         event: "merge-above",
       },
@@ -413,6 +423,32 @@ export default defineComponent({
       activeIndex.value = idx;
       state.dialog = true;
       activeRefs.value = refs.map((ref) => ref.referenceId ?? "");
+    }
+
+    function outputIngredient(idx: number, text: string, refs?: IngredientReferences[]) {
+      // if (!refs) {
+      //   props.value[idx].ingredientReferences = [];
+      //   refs = props.value[idx].ingredientReferences as IngredientReferences[];
+      // }
+
+      // setUsedIngredients();
+      // activeText.value = text;
+      // activeIndex.value = idx;
+      // state.dialog = true;
+      // activeRefs.value = refs.map((ref) => ref.referenceId ?? "");
+
+      props.recipe.recipeIngredient.push({
+            referenceId: uuid4(),
+            title: "",
+            note: "this is a test",
+            // @ts-expect-error - prop can be null-type by NoUndefinedField type forces it to be set
+            unit: undefined,
+            // @ts-expect-error - prop can be null-type by NoUndefinedField type forces it to be set
+            food: undefined,
+            disableAmount: true,
+            quantity: 1,
+            stepOutput: true,
+          })
     }
 
     const availableNextStep = computed(() => activeIndex.value < props.value.length - 1);
@@ -667,6 +703,7 @@ export default defineComponent({
       mergeAbove,
       moveTo,
       openDialog,
+      outputIngredient,
       setIngredientIds,
       availableNextStep,
       saveAndOpenNextLinkIngredients,

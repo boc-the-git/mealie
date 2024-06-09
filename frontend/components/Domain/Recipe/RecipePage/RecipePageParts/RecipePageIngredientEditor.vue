@@ -17,6 +17,7 @@
       <TransitionGroup type="transition" :name="!drag ? 'flip-list' : ''">
         <RecipeIngredientEditor
           v-for="(ingredient, index) in recipe.recipeIngredient"
+          v-if="ingredient.stepOutput === false"
           :key="ingredient.referenceId"
           v-model="recipe.recipeIngredient[index]"
           class="list-group-item"
@@ -107,7 +108,7 @@ export default defineComponent({
       return i18n.t("recipe.parse-ingredients");
     });
 
-    function addIngredient(ingredients: Array<string> | null = null) {
+    function addIngredient(ingredients: Array<string> | null = null, stepOutput = false) {
       if (ingredients?.length) {
         const newIngredients = ingredients.map((x) => {
           return {

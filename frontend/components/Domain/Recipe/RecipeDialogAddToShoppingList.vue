@@ -1,5 +1,6 @@
 <template>
   <div v-if="dialog">
+    <!-- TODO: Need to exclude my fake ingredients -->
     <BaseDialog v-if="shoppingListDialog" v-model="dialog" :title="$t('recipe.add-to-list')" :icon="$globals.icons.cartCheck">
       <v-card-text>
         <v-card

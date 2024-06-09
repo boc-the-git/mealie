@@ -36,7 +36,9 @@ class IngredientUnitModel(SqlAlchemyBase, BaseMixins):
         "RecipeIngredientModel", back_populates="unit"
     )
     aliases: Mapped[list["IngredientUnitAliasModel"]] = orm.relationship(
-        "IngredientUnitAliasModel", back_populates="unit", cascade="all, delete, delete-orphan"
+        "IngredientUnitAliasModel",
+        back_populates="unit",
+        cascade="all, delete, delete-orphan",
     )
 
     # Automatically updated by sqlalchemy event, do not write to this manually
@@ -149,7 +151,9 @@ class IngredientFoodModel(SqlAlchemyBase, BaseMixins):
         "RecipeIngredientModel", back_populates="food"
     )
     aliases: Mapped[list["IngredientFoodAliasModel"]] = orm.relationship(
-        "IngredientFoodAliasModel", back_populates="food", cascade="all, delete, delete-orphan"
+        "IngredientFoodAliasModel",
+        back_populates="food",
+        cascade="all, delete, delete-orphan",
     )
     extras: Mapped[list[IngredientFoodExtras]] = orm.relationship("IngredientFoodExtras", cascade="all, delete-orphan")
 
@@ -162,7 +166,13 @@ class IngredientFoodModel(SqlAlchemyBase, BaseMixins):
 
     @api_extras
     @auto_init()
-    def __init__(self, session: Session, name: str | None = None, plural_name: str | None = None, **_) -> None:
+    def __init__(
+        self,
+        session: Session,
+        name: str | None = None,
+        plural_name: str | None = None,
+        **_,
+    ) -> None:
         if name is not None:
             self.name_normalized = self.normalize(name)
         if plural_name is not None:
@@ -300,6 +310,8 @@ class RecipeIngredientModel(SqlAlchemyBase, BaseMixins):
     title: Mapped[str | None] = mapped_column(String)  # Section Header - Shows if Present
     note: Mapped[str | None] = mapped_column(String)  # Force Show Text - Overrides Concat
 
+    step_output: Mapped[bool | None] = mapped_column(Boolean, default=False)  # Ingredient is an output of a step
+
     # Scaling Items
     unit_id: Mapped[GUID | None] = mapped_column(GUID, ForeignKey("ingredient_units.id"), index=True)
     unit: Mapped[IngredientUnitModel | None] = orm.relationship(IngredientUnitModel, uselist=False)
@@ -317,7 +329,13 @@ class RecipeIngredientModel(SqlAlchemyBase, BaseMixins):
     original_text_normalized: Mapped[str | None] = mapped_column(String, index=True)
 
     @auto_init()
-    def __init__(self, session: Session, note: str | None = None, orginal_text: str | None = None, **_) -> None:
+    def __init__(
+        self,
+        session: Session,
+        note: str | None = None,
+        orginal_text: str | None = None,
+        **_,
+    ) -> None:
         # SQLAlchemy events do not seem to register things that are set during auto_init
         if note is not None:
             self.note_normalized = self.normalize(note)
