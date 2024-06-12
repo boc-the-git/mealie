@@ -1,7 +1,7 @@
 <template>
   <div>
     <RecipeIngredients
-      :value="recipe.recipeIngredient"
+      :value="recipeIngredientWithoutOutput"
       :scale="scale"
       :disable-amount="recipe.settings.disableAmount"
     />
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api";
+import { computed, defineComponent } from "@nuxtjs/composition-api";
 import { useLoggedInState } from "~/composables/use-logged-in-state";
 import { usePageState, usePageUser } from "~/composables/recipe-page/shared-state";
 import { useToolStore } from "~/composables/store";
@@ -54,6 +54,8 @@ export default defineComponent({
     const { user } = usePageUser();
     const { isEditMode } = usePageState(props.recipe.slug);
 
+    const recipeIngredientWithoutOutput = computed(() => props.recipe.recipeIngredient.filter((ing) => ing.stepOutput === false));
+
     function updateTool(index: number) {
       if (user.id && toolStore) {
         toolStore.actions.updateOne(props.recipe.tools[index]);
@@ -66,6 +68,7 @@ export default defineComponent({
       toolStore,
       isEditMode,
       updateTool,
+      recipeIngredientWithoutOutput
     };
   },
 });

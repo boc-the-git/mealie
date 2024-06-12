@@ -16,8 +16,7 @@
     >
       <TransitionGroup type="transition" :name="!drag ? 'flip-list' : ''">
         <RecipeIngredientEditor
-          v-for="(ingredient, index) in recipe.recipeIngredient"
-          v-if="ingredient.stepOutput === false"
+          v-for="(ingredient, index) in recipeIngredientWithoutOutput.recipeIngredient"
           :key="ingredient.referenceId"
           v-model="recipe.recipeIngredient[index]"
           class="list-group-item"
@@ -83,6 +82,8 @@ export default defineComponent({
 
     const route = useRoute();
     const groupSlug = computed(() => route.value.params.groupSlug || $auth.user?.groupSlug || "");
+    
+    const recipeIngredientWithoutOutput = computed(() => props.recipe.recipeIngredient.filter((ing) => ing.stepOutput === false));
 
     const hasFoodOrUnit = computed(() => {
       if (!props.recipe) {
@@ -149,6 +150,7 @@ export default defineComponent({
       hasFoodOrUnit,
       imageKey,
       drag,
+      recipeIngredientWithoutOutput,
     };
   },
 });
