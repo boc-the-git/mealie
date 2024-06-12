@@ -79,13 +79,19 @@ class IngredientFood(CreateIngredientFood):
     created_at: datetime.datetime | None = None
     update_at: datetime.datetime | None = None
 
-    _searchable_properties: ClassVar[list[str]] = ["name_normalized", "plural_name_normalized"]
+    _searchable_properties: ClassVar[list[str]] = [
+        "name_normalized",
+        "plural_name_normalized",
+    ]
     _normalize_search: ClassVar[bool] = True
     model_config = ConfigDict(from_attributes=True)
 
     @classmethod
     def loader_options(cls) -> list[LoaderOption]:
-        return [joinedload(IngredientFoodModel.extras), joinedload(IngredientFoodModel.label)]
+        return [
+            joinedload(IngredientFoodModel.extras),
+            joinedload(IngredientFoodModel.label),
+        ]
 
 
 class IngredientFoodPagination(PaginationBase):
@@ -134,6 +140,7 @@ class RecipeIngredientBase(MealieModel):
     unit: IngredientUnit | CreateIngredientUnit | None = None
     food: IngredientFood | CreateIngredientFood | None = None
     note: str | None = ""
+    step_output: bool = False
 
     is_food: bool | None = None
     disable_amount: bool | None = None
@@ -350,6 +357,8 @@ class MergeUnit(MealieModel):
     to_unit: UUID4
 
 
-from mealie.schema.labels.multi_purpose_label import MultiPurposeLabelSummary  # noqa: E402
+from mealie.schema.labels.multi_purpose_label import (
+    MultiPurposeLabelSummary,
+)  # noqa: E402
 
 IngredientFood.model_rebuild()
