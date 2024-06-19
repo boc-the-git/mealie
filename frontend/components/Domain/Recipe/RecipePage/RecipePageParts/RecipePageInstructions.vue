@@ -56,10 +56,47 @@
               {{ $t("recipe.auto") }}
             </BaseButton>
             <BaseButton class="ml-2 my-1" save @click="setIngredientIds"> </BaseButton>
+            <!-- Add here "add output ingredient", which then does tha
+                 and it's 'next' function goes to input on next step -->
             <BaseButton v-if="availableNextStep" class="ml-2 my-1" @click="saveAndOpenNextLinkIngredients">
               <template #icon> {{ $globals.icons.forward }}</template>
               {{ $t("recipe.nextStep") }}
             </BaseButton>
+          </div>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Ingredient Output Editor -->
+    <v-dialog v-if="dialogOutput" v-model="dialogOutput" width="600">
+      <v-card :ripple="false">
+        <v-app-bar dark color="primary" class="mt-n1 mb-3">
+          <v-icon large left>
+            {{ $globals.icons.link }}
+          </v-icon>
+          <v-toolbar-title class="headline"> {{ $t("recipe.output-ingredient") }} </v-toolbar-title>
+          <v-spacer></v-spacer>
+        </v-app-bar>
+
+        <v-card-text class="pt-4">
+          <p>
+            {{ activeText }}
+          </p>
+          <v-divider class="mb-4"></v-divider>
+          <v-text-field v-model="outputIngredientTitle" :label="'Ingredient'" /> <!-- Add translation -->
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <BaseButton cancel @click="dialogOutput = false"> </BaseButton>
+          <v-spacer></v-spacer>
+          <div class="d-flex flex-wrap justify-end">
+            <BaseButton class="ml-2 my-1" save @click="setOutputIngredientIds"> </BaseButton> <!-- TODO: Review -->
+            <BaseButton v-if="availableNextStep" class="ml-2 my-1" @click="saveAndOpenNextLinkIngredients">  <!-- TODO: Review -->
+              <template #icon> {{ $globals.icons.forward }}</template>
+              {{ $t("recipe.nextStep") }}
+            </BaseButton> <!-- TODO: Review -->
           </div>
         </v-card-actions>
       </v-card>
@@ -150,8 +187,8 @@
                               event: 'link-ingredients',
                             },
                             {
-                              text: $tc('recipe.output-ingredients'),
-                              event: 'output-ingredients',
+                              text: $tc('recipe.output-ingredient'),
+                              event: 'output-ingredient',
                             },
                             {
                               text: $tc('recipe.upload-image'),
@@ -183,7 +220,7 @@
                       @move-to-bottom="moveTo('bottom', index)"
                       @toggle-section="toggleShowTitle(step.id)"
                       @link-ingredients="openDialog(index, step.text, step.ingredientReferences)"
-                      @output-ingredients="outputIngredient(index, step.text, step.ingredientReferences)"
+                      @output-ingredient="outputIngredient(index, step.text, step.ingredientReferences)"
                       @preview-step="togglePreviewState(index)"
                       @upload-image="openImageUpload(index)"
                       @delete="value.splice(index, 1)"
@@ -220,6 +257,7 @@
                     :key="ing.referenceId"
                     :markup="getIngredientByRefId(ing.referenceId)"
                   />
+                  <!-- Here is where the linked ingredients are displayed -->
                 </v-card-text>
               </DropZone>
               <v-expand-transition>
@@ -233,6 +271,8 @@
                         :key="ing.referenceId"
                         :markup="getIngredientByRefId(ing.referenceId)"
                       />
+                      <!-- something isnt working right here.. my ingredients arent showing. steps 3 and 5 in cook mode.. -->
+                      <!-- Here is where the linked ingredients are displayed -->
                     </div>
                   </v-card-text>
                 </div>
@@ -310,6 +350,8 @@ export default defineComponent({
 
     const state = reactive({
       dialog: false,
+      dialogOutput: false,
+      outputIngredientTitle: "",
       disabledSteps: [] as number[],
       unusedIngredients: [] as RecipeIngredient[],
       usedIngredients: [] as RecipeIngredient[],
@@ -327,8 +369,8 @@ export default defineComponent({
         event: "link-ingredients",
       },
       {
-        text: i18n.t("recipe.output-ingredients") as string,
-        event: "output-ingredients",
+        text: i18n.t("recipe.output-ingredient") as string,
+        event: "output-ingredient",
       },
       {
         text: i18n.t("recipe.merge-above") as string,
@@ -426,29 +468,36 @@ export default defineComponent({
     }
 
     function outputIngredient(idx: number, text: string, refs?: IngredientReferences[]) {
-      // if (!refs) {
-      //   props.value[idx].ingredientReferences = [];
-      //   refs = props.value[idx].ingredientReferences as IngredientReferences[];
-      // }
+      // Here I want to first create the ingredient, then set it into `refs` etc,
+      // based on how openDialog is doing things.
+      // Note state.dialog below, it's what controls the UI input.. I should do an equivalent to the
+      // meal plan "add note" functionality.
 
-      // setUsedIngredients();
-      // activeText.value = text;
-      // activeIndex.value = idx;
-      // state.dialog = true;
-      // activeRefs.value = refs.map((ref) => ref.referenceId ?? "");
+      if (!refs) {
+        props.value[idx].ingredientReferences = [];
+        refs = props.value[idx].ingredientReferences as IngredientReferences[];
+      }
 
-      props.recipe.recipeIngredient.push({
-            referenceId: uuid4(),
-            title: "",
-            note: "this is a test",
-            // @ts-expect-error - prop can be null-type by NoUndefinedField type forces it to be set
-            unit: undefined,
-            // @ts-expect-error - prop can be null-type by NoUndefinedField type forces it to be set
-            food: undefined,
-            disableAmount: true,
-            quantity: 1,
-            stepOutput: true,
-          })
+      setUsedIngredients();
+      activeText.value = text;
+      activeIndex.value = idx;
+      state.dialogOutput = true;
+
+      // props.recipe.recipeIngredient.push({
+      //   referenceId: uuid4(),
+      //   title: "",
+      //   note: state.outputIngredientTitle.valueOf(),
+      //   // @ts-expect-error - prop can be null-type by NoUndefinedField type forces it to be set
+      //   unit: undefined,
+      //   // @ts-expect-error - prop can be null-type by NoUndefinedField type forces it to be set
+      //   food: undefined,
+      //   disableAmount: true,
+      //   quantity: 1,
+      //   stepOutput: true,
+      // })
+
+      // I'm not yet across what activeRefs is, and how it's used
+      activeRefs.value = refs.map((ref) => ref.referenceId ?? "");
     }
 
     const availableNextStep = computed(() => activeIndex.value < props.value.length - 1);
@@ -462,13 +511,43 @@ export default defineComponent({
       });
 
       // Update the visibility of the cook mode button
+      updateCookMode()
+      state.dialog = false;
+    }
+
+    function setOutputIngredientIds() {
+      const instruction = props.value[activeIndex.value];
+      instruction.ingredientReferences = activeRefs.value.map((ref) => {
+        return {
+          referenceId: ref,
+        };
+      });
+
+      props.recipe.recipeIngredient.push({
+        referenceId: uuid4(),
+        title: "",
+        note: state.outputIngredientTitle.valueOf(),
+        // @ts-expect-error - prop can be null-type by NoUndefinedField type forces it to be set
+        unit: undefined,
+        // @ts-expect-error - prop can be null-type by NoUndefinedField type forces it to be set
+        food: undefined,
+        disableAmount: true,
+        quantity: 0,
+        stepOutput: true,
+      })
+
+      // Update the visibility of the cook mode button
+      updateCookMode()
+      state.dialogOutput = false;
+    }
+
+    function updateCookMode() {
       showCookMode.value = false;
       props.value.forEach((element) => {
         if (showCookMode.value === false && element.ingredientReferences && element.ingredientReferences.length > 0) {
           showCookMode.value = true;
         }
       });
-      state.dialog = false;
     }
 
     function saveAndOpenNextLinkIngredients() {
@@ -705,6 +784,7 @@ export default defineComponent({
       openDialog,
       outputIngredient,
       setIngredientIds,
+      setOutputIngredientIds,
       availableNextStep,
       saveAndOpenNextLinkIngredients,
       undoMerge,

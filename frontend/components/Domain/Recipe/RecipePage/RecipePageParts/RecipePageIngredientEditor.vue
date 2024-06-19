@@ -82,7 +82,7 @@ export default defineComponent({
 
     const route = useRoute();
     const groupSlug = computed(() => route.value.params.groupSlug || $auth.user?.groupSlug || "");
-    
+
     const recipeIngredientWithoutOutput = computed(() => props.recipe.recipeIngredient.filter((ing) => ing.stepOutput === false));
 
     const hasFoodOrUnit = computed(() => {
@@ -120,6 +120,7 @@ export default defineComponent({
             food: undefined,
             disableAmount: true,
             quantity: 1,
+            stepOutput,
           };
         });
 
@@ -138,6 +139,7 @@ export default defineComponent({
           food: undefined,
           disableAmount: true,
           quantity: 1,
+          stepOutput,
         });
       }
     }
