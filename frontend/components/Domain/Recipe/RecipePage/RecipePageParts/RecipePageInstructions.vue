@@ -193,7 +193,7 @@
                       @insert-below="insert(index+1)"
                       @toggle-section="toggleShowTitle(step.id)"
                       @link-ingredients="openDialog(index, step.text, step.ingredientReferences)"
-                      @add-timer="console.log('add-timer clicked! this does not work, but I dont care')"
+                      @add-timer="addTimer(index)"
                       @preview-step="togglePreviewState(index)"
                       @upload-image="openImageUpload(index)"
                       @delete="value.splice(index, 1)"
@@ -248,6 +248,7 @@
                     <div v-if="isCookMode && step.timer && step.timer > 0">
                       <v-divider class="mb-2"></v-divider>
                       Here I'll put the timer..
+                      {{ step.timer }}
                     </div>
                   </v-card-text>
                 </div>
@@ -582,6 +583,11 @@ export default defineComponent({
       props.value.splice(dest, 0, { id: uuid4(), text: "", title: "", ingredientReferences: [] });
     }
 
+    function addTimer(index: number) {
+      // TODO: Do something useful here!!
+      props.value[index].timer = 123
+    }
+
     const previewStates = ref<boolean[]>([]);
 
     function togglePreviewState(index: number) {
@@ -714,6 +720,7 @@ export default defineComponent({
       isCookMode,
       isEditForm,
       insert,
+      addTimer,
     };
   },
 });
