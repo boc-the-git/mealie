@@ -35,6 +35,7 @@ class RecipeInstruction(SqlAlchemyBase):
             "ingredient_references",
         }
     )
+    timer: Mapped[int | None] = mapped_column(Integer)
 
     @auto_init()
     def __init__(self, ingredient_references, session, **_) -> None:

@@ -123,6 +123,7 @@
               <v-card-title :class="{ 'pb-0': !isChecked(index) }">
                 <span :class="isEditForm ? 'handle' : ''">
                   <v-icon v-if="isEditForm" size="26" class="pb-1">{{ $globals.icons.arrowUpDown }}</v-icon>
+                  <!-- Here is where I could add a custom title to steps -->
                   {{ $t("recipe.step-index", { step: index + 1 }) }}
                 </span>
                 <template v-if="isEditForm">
@@ -147,6 +148,10 @@
                             {
                               text: $tc('recipe.link-ingredients'),
                               event: 'link-ingredients',
+                            },
+                            {
+                              text: $tc('recipe.add-timer'),
+                              event: 'add-timer',
                             },
                             {
                               text: $tc('recipe.upload-image'),
@@ -188,6 +193,7 @@
                       @insert-below="insert(index+1)"
                       @toggle-section="toggleShowTitle(step.id)"
                       @link-ingredients="openDialog(index, step.text, step.ingredientReferences)"
+                      @add-timer="console.log('add-timer clicked! this does not work, but I dont care')"
                       @preview-step="togglePreviewState(index)"
                       @upload-image="openImageUpload(index)"
                       @delete="value.splice(index, 1)"
@@ -198,6 +204,7 @@
                   <v-icon v-show="isChecked(index)" size="24" class="ml-auto" color="success">
                     {{ $globals.icons.checkboxMarkedCircle }}
                   </v-icon>
+                  <!-- Here is where I'd add a display of the running timer for a collapsed step -->
                 </v-fade-transition>
               </v-card-title>
 
@@ -237,6 +244,10 @@
                         :key="ing.referenceId"
                         :markup="getIngredientByRefId(ing.referenceId)"
                       />
+                    </div>
+                    <div v-if="isCookMode && step.timer && step.timer > 0">
+                      <v-divider class="mb-2"></v-divider>
+                      Here I'll put the timer..
                     </div>
                   </v-card-text>
                 </div>
@@ -331,6 +342,10 @@ export default defineComponent({
         event: "link-ingredients",
       },
       {
+        text: i18n.t("recipe.add-timer") as string,
+        event: "add-timer",
+      },
+      {
         text: i18n.t("recipe.merge-above") as string,
         event: "merge-above",
       },
@@ -362,8 +377,11 @@ export default defineComponent({
           showTitleEditor.value[element.id] = validateTitle(element.title);
         }
 
-        // showCookMode.value = false;
-        if (showCookMode.value === false && element.ingredientReferences && element.ingredientReferences.length > 0) {
+        if (showCookMode.value === false && (
+            (element.ingredientReferences && element.ingredientReferences.length > 0)
+            || (element.timer && element.timer > 0)
+          )
+        ) {
           showCookMode.value = true;
         }
 

@@ -259,6 +259,7 @@ export interface RecipeStep {
   title?: string;
   text: string;
   ingredientReferences?: IngredientReferences[];
+  timer: number; // seconds, for the timer duration
 }
 export interface RecipeAsset {
   name: string;
