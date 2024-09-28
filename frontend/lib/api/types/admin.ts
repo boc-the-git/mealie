@@ -16,6 +16,7 @@ export interface AdminAboutInfo {
   oidcRedirect: boolean;
   oidcProviderName: string;
   enableOpenai: boolean;
+  enableOpenaiImageServices: boolean;
   versionLatest: string;
   apiPort: number;
   apiDocs: boolean;
@@ -171,6 +172,10 @@ export interface CustomPageOut {
   position: number;
   categories?: RecipeCategoryResponse[];
   id: number;
+}
+export interface DebugResponse {
+  success: boolean;
+  response?: string | null;
 }
 export interface EmailReady {
   ready: boolean;
