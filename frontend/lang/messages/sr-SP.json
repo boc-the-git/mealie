@@ -182,6 +182,7 @@
     "date": "Датум",
     "id": "Ид",
     "owner": "Власник",
+    "change-owner": "Change Owner",
     "date-added": "Датум додавања",
     "none": "Ниједно",
     "run": "Покрени",
@@ -1270,7 +1271,9 @@
     "debug-openai-services": "Debug OpenAI Services",
     "debug-openai-services-description": "Use this page to debug OpenAI services. You can test your OpenAI connection and see the results here. If you have image services enabled, you can also provide an image.",
     "run-test": "Run Test",
-    "test-results": "Test Results"
+    "test-results": "Test Results",
+    "group-delete-note": "Groups with users or households cannot be deleted",
+    "household-delete-note": "Households with users cannot be deleted"
   },
   "profile": {
     "welcome-user": "👋 Welcome, {0}!",

@@ -182,6 +182,7 @@
     "date": "Дата",
     "id": "Id",
     "owner": "Власник",
+    "change-owner": "Змінити власника",
     "date-added": "Дата додавання",
     "none": "Нічого",
     "run": "Виконати",
@@ -213,10 +214,10 @@
     "confirm-delete-generic-items": "Ви впевнені, що хочете видалити вибрані елементи?",
     "organizers": "Організатори",
     "caution": "Увага",
-    "show-advanced": "Show Advanced",
-    "add-field": "Add Field",
-    "date-created": "Date Created",
-    "date-updated": "Date Updated"
+    "show-advanced": "Показати розширені",
+    "add-field": "Додати поле",
+    "date-created": "Дата Створення",
+    "date-updated": "Дата Оновлення"
   },
   "group": {
     "are-you-sure-you-want-to-delete-the-group": "Ви дійсно бажаєте видалити <b>{groupName}<b/>?",
@@ -320,8 +321,8 @@
     "mealplan-update-failed": "Не вдалося оновити план харчування",
     "mealplan-updated": "План харчування оновлено",
     "mealplan-households-description": "If no household is selected, recipes can be added from any household",
-    "any-category": "Any Category",
-    "any-tag": "Any Tag",
+    "any-category": "Будь-яка категорія",
+    "any-tag": "Будь-який тег",
     "any-household": "Any Household",
     "no-meal-plan-defined-yet": "Не створено жодного плану харчування",
     "no-meal-planned-for-today": "Не заплановано харчування на сьогодні",
@@ -430,7 +431,7 @@
     "paste-in-your-recipe-data-each-line-will-be-treated-as-an-item-in-a-list": "Вставте дані рецепту. Кожен рядок буде використаний як елемент у списку",
     "recipe-markup-specification": "Налаштування розмітки рецептів",
     "recipe-url": "URL-адреса рецепту",
-    "recipe-html-or-json": "Recipe HTML or JSON",
+    "recipe-html-or-json": "Рецепт HTML або JSON",
     "upload-a-recipe": "Відвантажити рецепт",
     "upload-individual-zip-file": "Відвантажити окремий .zip файл, експортований з іншого Mealie.",
     "url-form-hint": "Скопіюйте та вставте посилання з вашого улюбленого кулінарного веб-сайту",
@@ -465,7 +466,7 @@
     "calories-suffix": "калорії",
     "carbohydrate-content": "Вуглеводи",
     "categories": "Категорії",
-    "cholesterol-content": "Cholesterol",
+    "cholesterol-content": "Холестерин",
     "comment-action": "Коментар",
     "comment": "Коментар",
     "comments": "Коментарі",
@@ -512,7 +513,7 @@
     "recipe-updated": "Рецепт оновлено",
     "remove-from-favorites": "Видалити з улюбленого",
     "remove-section": "Видалити розділ",
-    "saturated-fat-content": "Saturated fat",
+    "saturated-fat-content": "Насичені жири",
     "save-recipe-before-use": "Зберегти рецепт перед використанням",
     "section-title": "Назва розділу",
     "servings": "Порції",
@@ -523,9 +524,9 @@
     "sugar-content": "Цукор",
     "title": "Назва",
     "total-time": "Загальний час",
-    "trans-fat-content": "Trans-fat",
+    "trans-fat-content": "Трансжири",
     "unable-to-delete-recipe": "Не вдалося видалити рецепт",
-    "unsaturated-fat-content": "Unsaturated fat",
+    "unsaturated-fat-content": "Ненасичені жири",
     "no-recipe": "Немає рецепту",
     "locked-by-owner": "Заблоковано власником",
     "join-the-conversation": "Приєднатися до розмови",
@@ -613,16 +614,16 @@
     "scrape-recipe-description": "Розпізнати рецепт за посиланням. Вкажіть посилання на рецепт який ви хочете розпізнати й Mealie спробує розпізнати його і додати в вашу колекцію.",
     "scrape-recipe-have-a-lot-of-recipes": "Багато рецептів, які ви хочете розпізнати відразу?",
     "scrape-recipe-suggest-bulk-importer": "Спробуйте масовий розпізнавач",
-    "scrape-recipe-have-raw-html-or-json-data": "Have raw HTML or JSON data?",
-    "scrape-recipe-you-can-import-from-raw-data-directly": "You can import from raw data directly",
+    "scrape-recipe-have-raw-html-or-json-data": "Маєте необроблені дані HTML або JSON?",
+    "scrape-recipe-you-can-import-from-raw-data-directly": "Ви можете імпортувати необроблені дані",
     "import-original-keywords-as-tags": "Імпортувати оригінальні ключові слова як теги",
     "stay-in-edit-mode": "Залишитися в режимі редактора",
     "import-from-zip": "Імпортувати з Zip",
     "import-from-zip-description": "Імпортувати один рецепт, який був експортований з іншої Mealie.",
-    "import-from-html-or-json": "Import from HTML or JSON",
-    "import-from-html-or-json-description": "Import a single recipe from raw HTML or JSON. This is useful if you have a recipe from a site that Mealie can't scrape normally, or from some other external source.",
-    "json-import-format-description-colon": "To import via JSON, it must be in valid format:",
-    "json-editor": "JSON Editor",
+    "import-from-html-or-json": "Імпорт з HTML або JSON",
+    "import-from-html-or-json-description": "Імпортувати один рецепт з HTML або JSON. Це корисно якщо у вас є рецепт з сайту, який Mealie не може нормально сканувати або з іншого джерела.",
+    "json-import-format-description-colon": "Для імпорту з JSON, він повинен бути в валідному форматі:",
+    "json-editor": "Редактор JSON",
     "zip-files-must-have-been-exported-from-mealie": ".zip файли повинні бути експортовані з Mealie",
     "create-a-recipe-by-uploading-a-scan": "Створити рецепт, завантаживши скан.",
     "upload-a-png-image-from-a-recipe-book": "Завантажити png зображення з книги рецептів",
@@ -661,7 +662,7 @@
       "missing-food": "Створити відсутню їжу: {food}",
       "no-food": "Немає їжі"
     },
-    "reset-servings-count": "Reset Servings Count"
+    "reset-servings-count": "Скинути кількість порцій"
   },
   "search": {
     "advanced-search": "Розширений пошук",
@@ -1270,7 +1271,9 @@
     "debug-openai-services": "Налагодження служб OpenAI",
     "debug-openai-services-description": "Використовуйте цю сторінку, щоб налагодити служби OpenAI. Ви можете перевірити ваше з'єднання з OpenAI й побачити результати тут. Якщо ввімкнено служби зображень, ви також можете надати зображення.",
     "run-test": "Запустити перевірку",
-    "test-results": "Результати перевірки"
+    "test-results": "Результати перевірки",
+    "group-delete-note": "Groups with users or households cannot be deleted",
+    "household-delete-note": "Households with users cannot be deleted"
   },
   "profile": {
     "welcome-user": "👋 Ласкаво просимо, {0}!",
@@ -1339,25 +1342,25 @@
   },
   "query-filter": {
     "logical-operators": {
-      "and": "AND",
-      "or": "OR"
+      "and": "ТА",
+      "or": "АБО"
     },
     "relational-operators": {
-      "equals": "equals",
-      "does-not-equal": "does not equal",
-      "is-greater-than": "is greater than",
-      "is-greater-than-or-equal-to": "is greater than or equal to",
-      "is-less-than": "is less than",
-      "is-less-than-or-equal-to": "is less than or equal to"
+      "equals": "дорівнює",
+      "does-not-equal": "не дорівнює",
+      "is-greater-than": "більше ніж",
+      "is-greater-than-or-equal-to": "більше або дорівнює",
+      "is-less-than": "менше ніж",
+      "is-less-than-or-equal-to": "менше або дорівнює"
     },
     "relational-keywords": {
-      "is": "is",
-      "is-not": "is not",
-      "is-one-of": "is one of",
-      "is-not-one-of": "is not one of",
-      "contains-all-of": "contains all of",
-      "is-like": "is like",
-      "is-not-like": "is not like"
+      "is": "є",
+      "is-not": "не є",
+      "is-one-of": "є одним з",
+      "is-not-one-of": "не є одним з",
+      "contains-all-of": "містить усі",
+      "is-like": "схожий",
+      "is-not-like": "не схожий"
     }
   }
 }
