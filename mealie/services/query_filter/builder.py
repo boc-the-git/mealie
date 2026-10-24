@@ -445,13 +445,19 @@ class QueryFilterBuilder:
         return cls._wrap_in_relationships(element, relationships)
 
     def filter_query[Model: SqlAlchemyBase](
-        self, query: sa.Select, model: type[Model], column_aliases: dict[str, sa.ColumnElement] | None = None
+        self,
+        query: sa.Select,
+        model: type[Model],
+        column_aliases: dict[str, sa.ColumnElement] | None = None,
+        null_check_column_aliases: dict[str, sa.ColumnElement] | None = None,
     ) -> sa.Select:
         """
         Filters a query based on the parsed filter string.
-        If you need to filter on a custom column expression (e.g. a computed property), you can supply column aliases
+        If you need to filter on a custom column expression (e.g. a computed property), you can supply column aliases.
+        `null_check_column_aliases` take precedence for `IS` / `IS NOT` components, for aliases that replace nulls
         """
         column_aliases = column_aliases or {}
+        null_check_column_aliases = null_check_column_aliases or {}
 
         # resolve each attribute string to its model attribute and the relationships it traverses
         attr_map: dict[int, tuple[type[SqlAlchemyBase], InstrumentedAttribute, RelationshipChain]] = {}
@@ -491,7 +497,11 @@ class QueryFilterBuilder:
                 nested_model, model_attr, relationships = attr_map[i]
 
                 base_attribute_name = component.attribute_name.split(".")[-1]
-                if (column_alias := column_aliases.get(base_attribute_name)) is not None:
+                column_alias = column_aliases.get(base_attribute_name)
+                if component.relationship in (RelationalKeyword.IS, RelationalKeyword.IS_NOT):
+                    column_alias = null_check_column_aliases.get(base_attribute_name, column_alias)
+
+                if column_alias is not None:
                     model_attr = column_alias
                     relationships = []
 

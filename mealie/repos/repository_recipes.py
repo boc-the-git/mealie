@@ -44,19 +44,27 @@ class RepositoryRecipes(RecipeSuggestionMixin, HouseholdRepositoryGeneric[Recipe
             "rating": self._get_rating_col_alias(),
         }
 
+    @property
+    def null_check_column_aliases(self):
+        """`last_made` is coalesced above, so null checks need the raw value to find never-made recipes"""
+
+        if not self.user_id:
+            return {}
+
+        return {
+            "last_made": self._get_household_last_made_subquery(),
+        }
+
     def by_user(self: Self, user_id: UUID4) -> Self:
         """Add a user_id to the repo, which will be used to handle recipe ratings and other user-specific data"""
         self.user_id = user_id
         return self
 
-    def _get_last_made_col_alias(self) -> sa.ColumnElement | None:
-        """
-        Computed last_made which uses `HouseholdToRecipe.last_made` for the user's household,
-        otherwise an arbitrarily low date
-        """
+    def _get_household_last_made_subquery(self) -> sa.ColumnElement:
+        """`HouseholdToRecipe.last_made` for the user's household, or null if the household has never made it"""
 
         user_household_subquery = sa.select(User.household_id).where(User.id == self.user_id).scalar_subquery()
-        last_made_subquery = (
+        return (
             sa.select(HouseholdToRecipe.last_made)
             .where(
                 HouseholdToRecipe.recipe_id == self.model.id,
@@ -65,6 +73,14 @@ class RepositoryRecipes(RecipeSuggestionMixin, HouseholdRepositoryGeneric[Recipe
             .correlate(self.model)
             .scalar_subquery()
         )
+
+    def _get_last_made_col_alias(self) -> sa.ColumnElement | None:
+        """
+        Computed last_made which uses `HouseholdToRecipe.last_made` for the user's household,
+        otherwise an arbitrarily low date (so never-made recipes sort, and compare, as made long ago)
+        """
+
+        last_made_subquery = self._get_household_last_made_subquery()
         return sa.func.coalesce(last_made_subquery, datetime(year=1900, month=1, day=1, tzinfo=UTC))
 
     def _get_rating_col_alias(self) -> sa.ColumnElement | None:
