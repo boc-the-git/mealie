@@ -67,6 +67,11 @@ class RepositoryGeneric[Schema: MealieModel, Model: SqlAlchemyBase]:
     def column_aliases(self) -> dict[str, ColumnElement]:
         return {}
 
+    @property
+    def null_check_column_aliases(self) -> dict[str, ColumnElement]:
+        """Overrides `column_aliases` for `IS NULL` / `IS NOT NULL` filters, e.g. when an alias replaces nulls"""
+        return {}
+
     def _random_seed(self) -> str:
         return str(datetime.now(tz=UTC))
 
@@ -373,7 +378,12 @@ class RepositoryGeneric[Schema: MealieModel, Model: SqlAlchemyBase]:
         if pagination.query_filter:
             try:
                 query_filter_builder = QueryFilterBuilder(pagination.query_filter)
-                query = query_filter_builder.filter_query(query, model=self.model, column_aliases=self.column_aliases)
+                query = query_filter_builder.filter_query(
+                    query,
+                    model=self.model,
+                    column_aliases=self.column_aliases,
+                    null_check_column_aliases=self.null_check_column_aliases,
+                )
 
             except ValueError as e:
                 self.logger.error(e)

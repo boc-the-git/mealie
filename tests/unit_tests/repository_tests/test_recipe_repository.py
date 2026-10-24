@@ -766,6 +766,37 @@ def test_coalesce_last_made(unique_user: TestUser):
     assert [item.id for item in r.items] == [made_recipe.id, unmade_recipe.id]
 
 
+def test_filter_last_made_is_null(unique_user: TestUser, h2_user: TestUser):
+    dt = datetime.now(UTC)
+
+    made_recipe, unmade_recipe, other_household_recipe = (
+        unique_user.repos.recipes.create(
+            Recipe(user_id=unique_user.user_id, group_id=unique_user.group_id, name=random_string())
+        )
+        for _ in range(3)
+    )
+    unique_user.repos.household_recipes.create(
+        HouseholdRecipeCreate(recipe_id=made_recipe.id, household_id=unique_user.household_id, last_made=dt)
+    )
+    # made by another household only, so never made by unique_user's household
+    h2_user.repos.household_recipes.create(
+        HouseholdRecipeCreate(recipe_id=other_household_recipe.id, household_id=h2_user.household_id, last_made=dt)
+    )
+
+    repos = get_repositories(
+        unique_user.repos.session, group_id=unique_user.group_id, household_id=None
+    ).recipes.by_user(unique_user.user_id)
+    recipe_ids = f"[{made_recipe.id}, {unmade_recipe.id}, {other_household_recipe.id}]"
+
+    r = repos.page_all(PaginationQuery(page=1, per_page=-1, query_filter=f"id IN {recipe_ids} AND lastMade IS NULL"))
+    assert {item.id for item in r.items} == {unmade_recipe.id, other_household_recipe.id}
+
+    r = repos.page_all(
+        PaginationQuery(page=1, per_page=-1, query_filter=f"id IN {recipe_ids} AND lastMade IS NOT NULL")
+    )
+    assert [item.id for item in r.items] == [made_recipe.id]
+
+
 def test_order_by_rating(user_tuple: tuple[TestUser, TestUser]):
     user_1, user_2 = user_tuple
     database = user_1.repos
